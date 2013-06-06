@@ -21,8 +21,8 @@ public class SortTest {
     private final List<Integer> unsorted;
     
     public SortTest() {
-        unsorted = new ArrayList<Integer>(Arrays.asList(5, 8, 1, 0, 9, -9));
-        sorted = new ArrayList<Integer>(Arrays.asList(-9, 0, 1, 5, 8, 9));
+        unsorted = new ArrayList(Arrays.asList(5, 8, 1, 0, 9, -9));
+        sorted = new ArrayList(Arrays.asList(-9, 0, 1, 5, 8, 9));
     }
     
     @Test
@@ -59,8 +59,25 @@ public class SortTest {
         }
     }
     
+    @Test
+    public void testQuickSort() {
+        final Sorter<Integer> quickSorter = new QuickSort();
+        final List<Integer> toBeSorted = copySortData();
+        
+        quickSorter.sort(toBeSorted);
+        
+        logger.log(Level.INFO, "Expected: {0}", Arrays.toString(sorted.toArray()));
+        logger.log(Level.INFO, "Actual: {0}", Arrays.toString(toBeSorted.toArray()));
+        for (int dataIter = 0; dataIter < unsorted.size(); dataIter++) {
+            final int actualValue = toBeSorted.get(dataIter);
+            final int expectedValue = sorted.get(dataIter);
+            
+            assertEquals("Test Data #" + dataIter, expectedValue, actualValue);
+        }
+    }
+    
     private List<Integer> copySortData() {
-        List<Integer> copy = new ArrayList<Integer>();
+        List<Integer> copy = new ArrayList();
         
         for (Integer data : unsorted) {
             copy.add(data);
