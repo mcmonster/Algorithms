@@ -14,7 +14,7 @@ import org.junit.Test;
  * @author R. Matt McCann
  */
 public class SortTest {
-    private final Logger logger = Logger.getLogger("SortTest");
+    private static final Logger logger = Logger.getLogger("SortTest");
     
     private final List<Integer> sorted;
     
@@ -26,8 +26,25 @@ public class SortTest {
     }
     
     @Test
+    public void testInsertionSort() {
+        final Sorter<Integer> insertionSorter = new InsertionSort();
+        final List<Integer> toBeSorted = copySortData();
+        
+        insertionSorter.sort(toBeSorted);
+        
+        logger.log(Level.INFO, "Expected: {0}", Arrays.toString(sorted.toArray()));
+        logger.log(Level.INFO, "Actual: {0}", Arrays.toString(toBeSorted.toArray()));
+        for (int dataIter = 0; dataIter < unsorted.size(); dataIter++) {
+            final int actualValue = toBeSorted.get(dataIter);
+            final int expectedValue = sorted.get(dataIter);
+            
+            assertEquals("Test Data #" + dataIter, expectedValue, actualValue);
+        }
+    }
+    
+    @Test
     public void testMaxHeapSort() {
-        final Sorter<Integer> maxHeapSorter = new MaxHeapSort<Integer>();
+        final Sorter<Integer> maxHeapSorter = new MaxHeapSort();
         final List<Integer> toBeSorted = copySortData();
 
         maxHeapSorter.sort(toBeSorted);
