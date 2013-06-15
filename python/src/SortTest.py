@@ -15,6 +15,12 @@ class SortTest(unittest.TestCase):
         data = [1, 5, 9, 1, 3, 2]
         Sort.bubbleSort(data)
         self.assertEqual(data, [1, 1, 2, 3, 5, 9])
+
+    # Test the generalized bucket sort
+    def testBucketSort(self):
+        data = [1, 5, 9, 1, 3, 2]
+        Sort.bucketSort(data)
+        self.assertEqual(data, [1, 1, 2, 3, 5, 9])
         
     # Test the insertion sort algorithm
     def testInsertionSort(self):

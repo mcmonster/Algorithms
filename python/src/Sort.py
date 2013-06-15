@@ -1,4 +1,42 @@
 '''
+Calculates into which bucket an item belongs
+'''
+def whichBucket(item, maxItem, numBuckets):
+    bucket = int(float(item) * float(numBuckets - 1) / float(maxItem))
+    
+    print "Item: ", item
+    print "MaxItem: ", maxItem
+    print "NumBuckets: ", numBuckets
+    print "Bucket: ", bucket
+
+    return bucket
+
+'''
+Sorts the provided list of items using a generalized form of bucket sort (aka slower)
+TODO: Do the performance analysis for the generalized form. Good practice!
+'''
+def bucketSort(items):
+    buckets = []
+    for bucketIter in range(len(items)): # Initialize the buckets
+        buckets.append([])
+
+    maxItem = -1
+    for item in items: # Find the max item value, read: generalized form of bucket sort
+        if item > maxItem:
+            maxItem = item
+
+    while len(items) > 0: # Put each item in its bucket
+        item = items.pop(0)
+        buckets[whichBucket(item, maxItem, len(buckets))].append(item)
+
+    for bucket in buckets: # Sort each bucket using insertion sort and put it back in the main list
+        print "Bucket Before Sort: ", bucket
+        insertionSort(bucket)
+        print "Bucket After Sort: ", bucket
+        items.extend(bucket)
+        print "Items: ", items
+
+'''
 Sorts the provided items using the bubble sort algorithm
 '''
 def bubbleSort(items):
