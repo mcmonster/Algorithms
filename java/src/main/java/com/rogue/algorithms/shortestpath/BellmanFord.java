@@ -18,7 +18,7 @@ public class BellmanFord<LabelType> implements SinglePairShortestPathFinder<Labe
         Map<LabelType, SingleSourceStats> singleSources = 
                 initializeSingleSources(graph, startNode);
         
-        
+        return null;
     }
     
     private Map<LabelType, SingleSourceStats> initializeSingleSources(
