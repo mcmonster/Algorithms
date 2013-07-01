@@ -9,15 +9,14 @@ import com.google.common.base.Optional;
  */
 public interface Tree <T> {
     /**
-     * Removes the first node from the tree with the provided label.
+     * Removes the node from the tree. Runs in O(n) time.
      * 
-     * @param label Must not be null.
-     * @return Absent if no node with the provided label exists or the removed node. 
+     * @param node Must not be null.
      */
-    Optional<Node<T>> delete(T label);
+    void delete(Node<T> node);
     
     /**
-     * Inserts a node with the provided label into the tree.
+     * Inserts a node featuring the provided label into the tree.
      * 
      * @param label Must not be null. 
      */
@@ -45,10 +44,26 @@ public interface Tree <T> {
     Node<T> minimum();
     
     /**
+     * Retries the next smaller node than the provided node.
+     * 
+     * @param node Must not be null.
+     * @return Absent if no smaller node exists or the next smaller node.
+     */
+    Optional<Node<T>> predecessor(Node<T> node);
+    
+    /**
      * Retrieves the first node discovered in the tree with the provided label.
      * 
      * @param label Must not be null.
      * @return Absent if no node with the provided label exists or the discovered node.
      */
     Optional<Node<T>> search(T label);
+    
+    /**
+     * Retrieves the next larger node than the provided node.
+     * 
+     * @param node Must not be null.
+     * @return Absent if no larger node exists or the next larger node.
+     */
+    Optional<Node<T>> successor(Node<T> node);
 }

@@ -10,37 +10,28 @@ import static com.google.common.base.Preconditions.*;
  */
 public class Node<T> {
     /** Label for the node. */
-    private T label;
+    private Optional<T> label = Optional.absent();
     
     /** Parent node in the tree structure. */
-    private Optional<Node<T>> parent;
+    private Optional<? extends Node<T>> parent = Optional.absent();
     
-    /**
-     * Constructor.
-     * 
-     * @param label Must not be null. 
-     */
-    public Node(T label) { 
-        this.label = checkNotNull(label);
-    }
-    
-    /**
-     * Constructor.
-     * 
-     * @param label Must not be null.
-     * @param parent Must not be null.
-     */
-    public Node(T label, Optional<Node<T>> parent) {
-        this.label = checkNotNull(label);
-        this.parent = checkNotNull(parent);
-    }
+    /** Empty Bean-style constructor. */
+    public Node() { }
 
     public T getLabel() {
-        return label;
+        checkState(label.isPresent(), "Label has not been set!");
+        
+        return label.get();
     }
 
     public Node<T> getParent() {
+        checkState(label.isPresent(), "Parent has not been set!");
+        
         return parent.get();
+    }
+    
+    public boolean hasLabel() {
+        return label.isPresent();
     }
     
     public boolean hasParent() {
@@ -48,7 +39,7 @@ public class Node<T> {
     }
 
     public void setLabel(T label) {
-        this.label = checkNotNull(label);
+        this.label = Optional.of(label);
     }
 
     public void setParent(Node<T> parent) {
