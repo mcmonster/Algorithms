@@ -104,7 +104,22 @@ public class RedBlackTree<T> implements Tree<T> {
     protected void maintainRedBlackState(RedBlackNode<T> node) {
         checkArgument(node != null, "Node must not be null!");
         
-        
+        RedBlackNode<T> parent = (RedBlackNode) node.getParent();
+        while (parent.getColor() == Color.RED) { // While the parent is RED
+            RedBlackNode<T> grandparent = (RedBlackNode) node.getParent();
+            
+            // If the node's parent is the left child of its grandparent
+            if (grandparent.getLeftChild() == parent) {
+                RedBlackNode<T> uncle = (RedBlackNode) grandparent.getRightChild();
+                
+                if (uncle.getColor() == Color.RED) { // If the uncle is red
+                    parent.setColor(Color.BLACK); // Change the parent to black
+                    uncle.setColor(Color.BLACK); // Change the uncle to black
+                    grandparent.setColor(Color.RED); // Change the grandparent to red
+                    node = grandparent; // Move up two tiers of the tree and keep adjusting
+                } 
+            }
+        }
     }
     
     /** {@inheritDocs} */
