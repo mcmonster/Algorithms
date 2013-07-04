@@ -8,7 +8,7 @@ import static com.google.common.base.Preconditions.*;
  * 
  * @author R. Matt McCann
  */
-public class BinaryNode<T> extends Node<T> {
+public class BinaryNode<T> extends TreeNode<T> {
     /** Left child of the node. */
     private Optional<? extends BinaryNode<T>> leftChild = Optional.absent();
     

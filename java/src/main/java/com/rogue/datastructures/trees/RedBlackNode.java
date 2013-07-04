@@ -1,6 +1,5 @@
 package com.rogue.datastructures.trees;
 
-import com.google.common.base.Optional;
 import static com.google.common.base.Preconditions.*;
 
 /**
