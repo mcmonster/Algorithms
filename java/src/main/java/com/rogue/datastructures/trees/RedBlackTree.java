@@ -149,6 +149,7 @@ public class RedBlackTree<T> extends BinarySearchTree<T> {
                     uncle.setColor(Color.BLACK); // Change the uncle to black
                     grandparent.setColor(Color.RED); // Change the grandparent to red
                     node = grandparent; // Move up two tiers of the tree and keep adjusting
+<<<<<<< HEAD
                 } else { // If the uncle is black
                     if (node == parent.getRightChild()) { // If the node is its parent's right child
                         node = parent;
@@ -191,6 +192,29 @@ public class RedBlackTree<T> extends BinarySearchTree<T> {
         }
         
         ((RedBlackNode) getRoot()).setColor(Color.RED); // Make sure the root is still red
+=======
+                } 
+            }
+        }
+    }
+    
+    /** {@inheritDocs} */
+    @Override
+    public Node maximum() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    /** {@inheritDocs} */
+    @Override
+    public Node minimum() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    /** {@inheritDocs} */
+    @Override
+    public Optional predecessor(Node node) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+>>>>>>> ffc8c4d3cc053d66c5000282ac9a0ad9e36f5a83
     }
     
     /**
