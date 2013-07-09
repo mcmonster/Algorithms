@@ -1,6 +1,7 @@
 package com.rogue.datastructures.trees;
 
 import com.rogue.datastructures.DynamicSetTest;
+import com.rogue.datastructures.trees.RedBlackNode.Color;
 import java.util.Comparator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -29,8 +30,82 @@ public class RedBlackTreeTest extends DynamicSetTest {
     }
     
     @Test
-    public void testMaintainRedBlackState() {
-        
+    public void testMaintainRedBlackStateAfterInsert() {
+        // Initial state:
+        //                   11B
+        //        2R                    14B
+        //    1B       7B                      15R
+        //          5R    8R    
+        //    z=>4R
+        //
+        // After maintenance:
+        //                   7B
+        //           2R              11R
+        //      1B       5B       8B       14B
+        //             4R                       15R
+        try {
+            // Set up the tree
+            RedBlackTree tree = new RedBlackTree(comparator);
+            RedBlackNode<Integer> eleven = new RedBlackNode();
+            eleven.setLabel(11);
+            eleven.setColor(Color.BLACK);
+            eleven.setParent(tree.getSentinel());
+            tree.setRoot(eleven);
+            RedBlackNode<Integer> two = new RedBlackNode();
+            two.setLabel(2);
+            two.setColor(Color.RED);
+            two.setParent(eleven);
+            eleven.setLeftChild(two);
+            RedBlackNode<Integer> fourteen = new RedBlackNode();
+            fourteen.setLabel(14);
+            fourteen.setColor(Color.BLACK);
+            fourteen.setParent(eleven);
+            eleven.setRightChild(fourteen);
+            RedBlackNode<Integer> one = new RedBlackNode();
+            one.setLabel(1);
+            one.setColor(Color.BLACK);
+            one.setParent(two);
+            two.setLeftChild(one);
+            RedBlackNode<Integer> seven = new RedBlackNode();
+            seven.setLabel(7);
+            seven.setColor(Color.BLACK);
+            seven.setParent(two);
+            two.setRightChild(seven);
+            RedBlackNode<Integer> fifteen = new RedBlackNode();
+            fifteen.setLabel(15);
+            fifteen.setColor(Color.RED);
+            fifteen.setParent(fourteen);
+            fourteen.setRightChild(fifteen);
+            RedBlackNode<Integer> five = new RedBlackNode();
+            five.setLabel(5);
+            five.setColor(Color.RED);
+            five.setParent(seven);
+            seven.setLeftChild(five);
+            RedBlackNode<Integer> eight = new RedBlackNode();
+            eight.setLabel(8);
+            eight.setColor(Color.RED);
+            eight.setParent(seven);
+            seven.setRightChild(eight);
+            RedBlackNode<Integer> four = new RedBlackNode();
+            four.setLabel(4);
+            four.setColor(Color.RED);
+            four.setParent(five);
+            five.setLeftChild(four);
+            
+            // Execute the method
+            tree.maintainRedBlackStateAfterInsert(four);
+            
+            // Check the results
+            assertEquals("7 is the new root", 7, tree.getRoot().getLabel());
+            assertEquals("7 is black", Color.BLACK, seven.getColor());
+            assertEquals("7's parent is sentinel", tree.getSentinel(), seven.getParent());
+            assertEquals("2 is 7's left child", 2, (int) seven.getLeftChild().getLabel());
+            assertEquals("11 is 7's right child", 11, (int) seven.getRightChild().getLabel());
+            //assertEquals("2 is red", Color.RED, )
+        } catch (Exception ex) {
+            logger.log(Level.SEVERE, "Exception occurred!", ex);
+            throw new RuntimeException(ex);
+        }
     }
     
     @Test

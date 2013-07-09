@@ -1,5 +1,6 @@
 package com.rogue.algorithms.shortestpath;
 
+import com.rogue.datastructures.graphs.Graph;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;

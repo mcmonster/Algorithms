@@ -1,5 +1,8 @@
-package com.rogue.algorithms.shortestpath;
+package com.rogue.datastructures.graphs;
 
+import com.rogue.algorithms.shortestpath.AdjacencyList;
+import com.rogue.algorithms.shortestpath.Node;
+import com.rogue.datastructures.graphs.Graph;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ArrayList;
