@@ -1,6 +1,5 @@
 package com.rogue.datastructures.graphs;
 
-import com.rogue.datastructures.Node;
 import java.util.Collection;
 
 /**
@@ -16,5 +15,5 @@ public interface Graph<LabelType> {
      * @param nodeLabel Label of the node of interest. Must not be null.
      * @return All edges leading from the node to its adjacencies. 
      */
-    Collection<? extends Edge> getAdjacencies(LabelType nodeLabel);
+    Collection<? extends Edge<LabelType>> getAdjacencies(LabelType nodeLabel);
 }
