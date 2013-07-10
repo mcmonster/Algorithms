@@ -8,6 +8,9 @@ import java.util.Map;
 import java.util.ArrayList;
 import java.util.List;
 import static com.google.common.base.Preconditions.*;
+import com.google.common.collect.HashBasedTable;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Table;
 
 /**
  * Constructs graph objects.
@@ -61,5 +64,19 @@ public class GraphFactory {
         }
         
         return new AdjacencyList(nodes);
+    }
+    
+    public static <LabelType> Graph<LabelType> buildTranspose(Graph<LabelType> graph) {
+        Table<LabelType, LabelType, Float> transpose = HashBasedTable.create();
+        
+        for (LabelType fromNode : graph.getNodes()) {
+            ImmutableList<? extends Edge<LabelType>> edges = graph.getAdjacencies(fromNode);
+            
+            for (Edge<LabelType> edge : edges) {
+                transpose.put(edge.getToNode().getLabel(), fromNode, edge.getWeight());
+            }
+        }
+        
+        return new AdjacencyMatrixGraph(transpose, graph.getComparator(), graph.getNodes());
     }
 }

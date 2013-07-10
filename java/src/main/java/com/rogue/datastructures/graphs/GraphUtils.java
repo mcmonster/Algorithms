@@ -175,4 +175,81 @@ public abstract class GraphUtils {
         
         return time;
     }
+    
+    /**
+     * Visits the node and its neighbors, recording when a node has been finished
+     * processing (to construct a DAG).
+     * 
+     * @param <LabelType> Type of label used on the nodes in the graph.
+     * @param graph Must not be null. Must contain start node and end node.
+     * @param metadata Current state of the graph meta data. Must not be null.
+     * @param node Node to be visited. Must not be null.
+     * @param time Current timestep of the search algorithm. Must be >= 0.
+     * @param dag Must not be null. 
+     * @return Time step of the search algorithm after the visit is complete.
+     */
+    private static <LabelType> float dfsVisit(Graph<LabelType> graph, 
+            Map<LabelType, MetaData<LabelType>> metadata, LabelType node, 
+            float time, List<LabelType> dag) {
+        checkArgument(graph != null, "Graph must not be null!");
+        checkArgument(metadata != null, "MetaData must not be null!");
+        checkArgument(node != null, "Node must not be null!");
+        checkArgument(time >= 0, "Time must be >= 0, got %s", time);
+        checkArgument(dag != null, "DAG must not be null!");
+        
+        time += 1; // Increase the time by one step
+        MetaData<LabelType> currentMetaData = metadata.get(node);
+        currentMetaData.distance = time; // Record at what time step the node was discovered
+        currentMetaData.color = Color.GRAY; // Mark the vertex as having been discovered
+        
+        Collection<? extends Edge<LabelType>> edges = graph.getAdjacencies(node);
+        for (Edge<LabelType> edge : edges) {
+            LabelType adjacency = edge.getToNode().getLabel(); // Retrieve the current status of the neighbor
+            MetaData<LabelType> adjacencyMetaData = metadata.get(adjacency);
+                
+            if (adjacencyMetaData.color == Color.WHITE) { // If this node has not been seen before
+                adjacencyMetaData.parent = Optional.of(node); // Mark the current node as its parent
+                dfsVisit(graph, metadata, adjacency, time); // Visit the node
+            }
+        }
+        
+        currentMetaData.color = Color.BLACK; // Mark the node as visited
+        time += 1; // Move forward one time step
+        currentMetaData.finish = Optional.of(time); // Save the time step when the node was finished being visited
+        
+        dag.add(node); // Add the node to the DAG
+        
+        return time;
+    }
+    
+    /**
+     * Topologically sorts the graph in such a way that the return list is
+     * an directed acyclic graph. DAG!
+     * 
+     * @param <LabelType> Type of label used on the nodes in the graph.
+     * @param graph Must not be null.
+     * @return 
+     */
+    public static <LabelType> List<LabelType> sortTopologically(Graph<LabelType> graph) {
+        checkArgument(graph != null, "Graph must not be null!");
+        
+        Collection<LabelType> nodes = graph.getNodes();
+        Map<LabelType, MetaData<LabelType>> metadata = new HashMap();
+        for (LabelType node : nodes) { // Initialize the meta data for the search
+            metadata.put(node, new MetaData());
+        }
+        
+        List<LabelType> dag = new ArrayList();
+        
+        float time = 0;
+        for (LabelType node : nodes) { // For each node in the graph
+            MetaData<LabelType> currentMetaData = metadata.get(node);
+            
+            if (currentMetaData.color == Color.WHITE) { // If the node hasn't been visited
+                time = dfsVisit(graph, metadata, node, time, dag); // Visit the node
+            }
+        }
+        
+        return dag;
+    }
 }
